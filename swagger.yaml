@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: Image Processing API
+  description: API for processing images and returning results as JSON.
+  version: 1.0.0
+
+paths:
+  /process-image:
+    post:
+      summary: Process an image
+      description: Upload an image to be processed and receive a JSON array object in response.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The image file to be processed.
+      responses:
+        '200':
+          description: A JSON array object containing the results of the image processing.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    result:
+                      type: string
+                      description: The result of the image processing.
+                    confidence:
+                      type: number
+                      format: float
+                      description: Confidence level of the result.
+
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+properties:
+  signature:
+    type: string
+    description: The signature associated with the content.
+  content:
+    type: string
+    description: The main content of the object.
+  coordinates:
+    type: array
+    description: An array of coordinate pairs.
+    items:
+      type: array
+      items:
+        type: number
+      minItems: 2
+      maxItems: 2
+required:
+  - signature
+  - content
+  - coordinates
+
