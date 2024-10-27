@@ -28,36 +28,30 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    result:
-                      type: string
-                      description: The result of the image processing.
-                    confidence:
-                      type: number
-                      format: float
-                      description: Confidence level of the result.
+                  $ref: '#/components/schemas/ImageProcessingResult'
 
-$schema: http://json-schema.org/draft-07/schema#
-type: object
-properties:
-  signature:
-    type: string
-    description: The signature associated with the content.
-  content:
-    type: string
-    description: The main content of the object.
-  coordinates:
-    type: array
-    description: An array of coordinate pairs.
-    items:
-      type: array
-      items:
-        type: number
-      minItems: 2
-      maxItems: 2
-required:
-  - signature
-  - content
-  - coordinates
+components:
+  schemas:
+    ImageProcessingResult:
+      type: object
+      properties:
+        signature:
+          type: string
+          description: The signature associated with the content.
+        content:
+          type: string
+          description: The main content of the object.
+        coordinates:
+          type: array
+          description: An array of coordinate pairs.
+          items:
+            type: array
+            items:
+              type: number
+            minItems: 2
+            maxItems: 2
+      required:
+        - signature
+        - content
+        - coordinates
 
