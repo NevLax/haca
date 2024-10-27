@@ -28,7 +28,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ImageProcessingResult'
+                  $ref: '#/components/schemas/ExampleResponse'
 
 components:
   schemas:
@@ -55,3 +55,14 @@ components:
         - content
         - coordinates
 
+    ExampleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A descriptive message related to the response.
+        items:
+          type: array
+          description: An array of components.
+          items:
+            $ref: '#/components/schemas/ImageProcessingResult'
