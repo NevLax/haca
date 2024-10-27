@@ -3,37 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload</title>
-    <script>
-        async function uploadImage(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const formData = new FormData();
-            const imageFile = document.getElementById('imageInput').files[0];
-            formData.append('file', imageFile); // Append the image file to the FormData object
-
-            try {
-                const response = await fetch('/process-image', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                document.getElementById('response').innerText = JSON.stringify(result);
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('response').innerText = 'An error occurred.';
-            }
-        }
-    </script>
+    <title>Auto Upload Image Example</title>
 </head>
 <body>
-    <h1>Upload an Image</h1>
-    <form id="uploadForm" onsubmit="uploadImage(event)">
-        <input type="file" id="imageInput" name="file" accept="image/*" required>
-        <button type="submit">Upload</button>
+    <form id="imageForm">
+        <input type="file" id="imageInput" accept="image/*" required>
     </form>
-    <h2>Response:</h2>
-    <pre id="response"></pre>
+    <div id="responseMessage"></div>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // Example of sending the image to a server
+                fetch('/process-image', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Display the response message
+                    document.getElementById('responseMessage').innerText = JSON.stringify(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    document.getElementById('responseMessage').innerText = 'Error: ' + error.message;
+                });
+            } else {
+                alert('Please select an image to send.');
+            }
+        });
+    </script>
 </body>
 </html>
+
